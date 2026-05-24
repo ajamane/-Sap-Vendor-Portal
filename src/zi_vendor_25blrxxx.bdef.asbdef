@@ -1,0 +1,57 @@
+managed implementation in class zbp_i_vendor_25BLRXXX unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZI_VENDOR_25BLRXXX //alias <alias_name>
+persistent table ztvendor_blrxxx
+draft table ztven_d_blrxxx
+with additional save
+authorization master ( instance )
+etag master LchgDateTime
+lock master
+total etag LchgDateTime
+{
+  field ( readonly, numbering : managed ) mykey;
+
+  field ( readonly ) sord, CreaUname, CreaDateTime, LchgUname, LchgDateTime, Status;
+
+  field ( mandatory ) partner, DeliveryDate, Matnr, OrderQty;
+
+  create ( authorization : global );
+  update;
+  delete;
+
+
+  //Validation
+  validation validateMandfield on save { field sord, partner, status, OrderConfDate, DeliveryDate; }
+  // Determination
+  determination autofill_status on modify { create; }
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare { validation validateMandfield; }
+
+  mapping for ztvendor_blrxxx corresponding
+    {
+      Mykey         = mykey;
+      Sord          = sord;
+      Partner       = partner;
+      Matnr         = matnr;
+      OrderQty      = orderqty;
+      Totcost       = totcost;
+      Currkey       = currkey;
+      Status        = status;
+      OrderConfDate = order_conf_date;
+      DeliveryDate  = delivery_date;
+      Remarks       = remarks;
+      CreaDateTime  = crea_date_time;
+      CreaUname     = crea_uname;
+      LchgDateTime  = lchg_date_time;
+      LchgUname     = lchg_uname;
+      Attachment    = attachment;
+      Mimetype      = mimetype;
+      Filename      = filename;
+    }
+}

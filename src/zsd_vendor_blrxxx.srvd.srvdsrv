@@ -1,0 +1,4 @@
+@EndUserText.label: 'Service Defination Vendor Master'
+define service ZSD_VENDOR_BLRXXX {
+  expose ZC_VENDOR_25BLRXXX as VendorPortal;
+}
